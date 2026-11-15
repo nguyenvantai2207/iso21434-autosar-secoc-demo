@@ -1,0 +1,9 @@
+{
+  "name": "central_ecu",
+  "author": "AUTOSAR ISO/SAE 21434 Demo",
+  "pins": [
+    "VCC", "GND",
+    "BTN_UNLOCK", "BTN_LOCK", "SW_SEC",
+    "CAN_TX", "CAN_RX"
+  ]
+}

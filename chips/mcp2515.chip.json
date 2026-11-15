@@ -1,0 +1,9 @@
+{
+  "name": "mcp2515",
+  "author": "AUTOSAR Demo",
+  "pins": [
+    "VCC", "GND",
+    "CS", "SCK", "SI", "SO", "INT",
+    "CAN_TX", "CAN_RX"
+  ]
+}

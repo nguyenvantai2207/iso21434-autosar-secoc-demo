@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "author": "AUTOSAR ISO/SAE 21434 Demo",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-text",
+      "id": "txt_title",
+      "top": -150,
+      "left": -280,
+      "attrs": { "text": "AUTOSAR Classic (SecOC + IdsM) & ISO/SAE 21434 — Car Door Unlock Security Demo" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_central_box",
+      "top": -105,
+      "left": -280,
+      "attrs": { "text": "1. CENTRAL ECU (TX Node)" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_btn_unlock",
+      "top": -75,
+      "left": -285,
+      "attrs": { "text": "UNLOCK" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn_unlock",
+      "top": -50,
+      "left": -285,
+      "attrs": { "color": "green", "label": "Unlock", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_btn_lock",
+      "top": -75,
+      "left": -185,
+      "attrs": { "text": "LOCK" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn_lock",
+      "top": -50,
+      "left": -190,
+      "attrs": { "color": "yellow", "label": "Lock", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_sw_sec",
+      "top": -75,
+      "left": -105,
+      "attrs": { "text": "SecOC Mode" }
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "sw_sec",
+      "top": -45,
+      "left": -90,
+      "attrs": { "value": "1" }
+    },
+    {
+      "type": "chip-central_ecu",
+      "id": "central",
+      "top": 60,
+      "left": -210
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_central",
+      "top": 155,
+      "left": -260,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_can_bus",
+      "top": 40,
+      "left": -75,
+      "attrs": { "text": "◄── CAN BUS ──►" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_bcm_box",
+      "top": -105,
+      "left": 55,
+      "attrs": { "text": "2. BCM ECU (Nano + MCP2515)" }
+    },
+    {
+      "type": "chip-mcp2515",
+      "id": "mcp2",
+      "top": 60,
+      "left": 55
+    },
+    {
+      "type": "wokwi-arduino-nano",
+      "id": "bcm",
+      "top": 65,
+      "left": 210
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_actuators",
+      "top": -105,
+      "left": 520,
+      "attrs": { "text": "3. DOOR ACTUATOR & IdsM" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_ok",
+      "top": -45,
+      "left": 530,
+      "attrs": { "color": "green", "label": "Valid" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led_err",
+      "top": -45,
+      "left": 650,
+      "attrs": { "color": "red", "label": "IdsM Alert" }
+    },
+    {
+      "type": "wokwi-gnd",
+      "id": "gnd_leds",
+      "top": 20,
+      "left": 595,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo_door",
+      "top": 55,
+      "left": 545,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-text",
+      "id": "txt_servo",
+      "top": 175,
+      "left": 525,
+      "attrs": { "text": "Door Lock (0°=Lock, 90°=Unlock)" }
+    }
+  ],
+  "connections": [
+    [ "btn_unlock:2.l", "gnd_central:GND", "black", [ "h-15", "v185", "h40" ] ],
+    [ "btn_lock:2.l", "gnd_central:GND", "black", [ "h-10", "v185", "h-45" ] ],
+    [ "sw_sec:1", "gnd_central:GND", "black", [ "v190", "h-160" ] ],
+
+    [ "btn_unlock:1.r", "central:BTN_UNLOCK", "green", [ "h10", "v115", "h15" ] ],
+    [ "btn_lock:1.r", "central:BTN_LOCK", "yellow", [ "h10", "v125", "h-80" ] ],
+    [ "sw_sec:2", "central:SW_SEC", "blue", [ "v125", "h-120" ] ],
+
+    [ "central:CAN_TX", "mcp2:CAN_RX", "cyan", [ "h45", "v10", "h120" ] ],
+    [ "mcp2:CAN_TX", "central:CAN_RX", "#0088ff", [ "h-45", "v10", "h-120" ] ],
+
+    [ "bcm:10", "mcp2:CS", "orange", [ "v-45", "h-95", "v55" ] ],
+    [ "bcm:13", "mcp2:SCK", "yellow", [ "v-55", "h-60", "v75" ] ],
+    [ "bcm:11", "mcp2:SI", "blue", [ "v-35", "h-85", "v65" ] ],
+    [ "bcm:12", "mcp2:SO", "purple", [ "v-25", "h-75", "v65" ] ],
+    [ "bcm:2", "mcp2:INT", "white", [ "v-65", "h-175", "v115" ] ],
+
+    [ "bcm:6", "led_ok:A", "green", [ "v-50", "h230" ] ],
+    [ "bcm:7", "led_err:A", "red", [ "v-60", "h360" ] ],
+    [ "led_ok:C", "gnd_leds:GND", "black", [ "v15", "h60" ] ],
+    [ "led_err:C", "gnd_leds:GND", "black", [ "v15", "h-60" ] ],
+
+    [ "bcm:9", "servo_door:PWM", "orange", [ "v-35", "h235", "v95" ] ],
+    [ "bcm:5V", "servo_door:V+", "red", [ "v35", "h225", "v-35" ] ],
+    [ "bcm:GND.1", "servo_door:GND", "black", [ "v45", "h210", "v-55" ] ]
+  ]
+}

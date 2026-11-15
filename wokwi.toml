@@ -1,0 +1,13 @@
+[wokwi]
+version = 1
+firmware = '.pio/build/bcm_nano/firmware.hex'
+elf = '.pio/build/bcm_nano/firmware.elf'
+rfc2217ServerPort = 4000
+
+[[chip]]
+name = 'mcp2515'
+binary = 'chips/mcp2515.chip.wasm'
+
+[[chip]]
+name = 'central_ecu'
+binary = 'chips/central_ecu.chip.wasm'
